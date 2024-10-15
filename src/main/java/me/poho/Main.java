@@ -21,6 +21,7 @@ public class Main {
         }catch (IOException ex){
             ex.printStackTrace();
         }
+        System.out.println("Task complete! (File saved as " + filename + ".txt)");
     }
 
     public static boolean isPrime(long n){
