@@ -24,7 +24,7 @@ public class Main {
         System.out.println("Task complete! (File saved as " + filename + ".txt)");
     }
 
-    /*public static boolean isPrime(long n){
+    public static boolean isPrime(long n){
         // Handle small numbers and edge cases
         if (n <= 1) {
             return false; // 0 and 1 are not prime numbers
@@ -44,7 +44,7 @@ public class Main {
         }
 
         return true; // If no factors are found, n is prime
-    }*/
+    }
 
     public static boolean isPrime(BigInteger n){
         // Handle small numbers and edge cases
