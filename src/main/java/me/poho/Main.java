@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class Main {
 
-    @SuppressWarnings("all")
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Enter time limit in millis: ");
@@ -19,7 +18,7 @@ public class Main {
         System.out.println("Enter primality checking method (Miller-Rabin or Trial Division): ");
         String mode = in.next();
         PrimalityCheckingMethod checkingMethod = switch (mode) {
-            case "miller-rabin", "Miller-Rabin", "miller_rabin", "Miller Rabin" -> PrimalityCheckingMethod.MILLER_RABIN;
+            case "miller-rabin", "Miller-Rabin", "miller_rabin", "Miller Rabin", "MILLER_RABIN", "MILLER-RABIN" -> PrimalityCheckingMethod.MILLER_RABIN;
             default -> PrimalityCheckingMethod.TRIAL_DIVISION;
         };
         int iterationCount = 0;
