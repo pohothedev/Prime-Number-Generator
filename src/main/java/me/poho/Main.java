@@ -3,12 +3,15 @@ package me.poho;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public class Main {
@@ -38,7 +41,25 @@ public class Main {
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
-        System.out.println("Task complete! (File saved as " + filename + ".txt) Time elapsed: " + (System.currentTimeMillis() - t));
+        System.out.println("Task complete! (File saved as " + filename + ".txt) Time elapsed: " + (System.currentTimeMillis() - t) + "ms.");
+        System.out.println("Sorting file... (Just in case)");
+        File f = new File(filename + ".txt");
+        try {
+            // Read, parse, sort, and write in one pipeline
+            Files.write(
+                    Paths.get(f.toURI()),
+                    Files.lines(Paths.get(f.toURI()))
+                            .map(String::trim)                // Trim whitespace
+                            .filter(line -> !line.isEmpty())  // Skip empty lines
+                            .map(Integer::parseInt)           // Parse to Integer
+                            .sorted()                         // Sort numbers
+                            .map(String::valueOf)             // Convert back to String
+                            .collect(Collectors.toList())     // Collect as a List
+            );
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        System.out.println("Done!");
     }
 
     public static boolean isPrimeMillerRabin(long n, int k) {
@@ -109,7 +130,7 @@ public class Main {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         FileWriter writer = new FileWriter(f);
 
-        try (writer) {
+        try {
             long n = 2;
             while (System.currentTimeMillis() - timeStart < timeMillis) {
                 long current = n++;
@@ -129,10 +150,11 @@ public class Main {
                     }
                 }, executor);
             }
+        } finally {
+            executor.shutdown();
+            executor.awaitTermination(1, TimeUnit.MINUTES);
+            writer.close(); // Ensure FileWriter is closed after all tasks finish
         }
-
-        executor.shutdown();
-        executor.awaitTermination(1, TimeUnit.MINUTES);
     }
 
 }
