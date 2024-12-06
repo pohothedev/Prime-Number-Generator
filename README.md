@@ -6,4 +6,4 @@
       Write `java -jar PrimeNumberGenerator-v{VERSION}.jar` in the terminal.
       where '{VERSION}' is the version number/code which is also in the jar name (latest version is 1.0.2).
     2. Through the provided batch file:
-      Open the provided batch file (depends on the operating system) and the program will open.
+      Open the script file which is contained in the releases (depends on the operating system) and the program will open.
